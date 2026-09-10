@@ -124,6 +124,36 @@
     )[
       #body
     ]
+  } else if thm-type == "Exercise" {
+    showybox(
+      title-style: (
+        weight: 1000,
+        color: red.darken(40%),
+        sep-thickness: 0pt,
+      ),
+      title: [Exercise #number
+        #if name != none { [#text(weight: "regular")[(#name)]] }],
+
+      frame: (
+        border-color: red.lighten(20%),
+        title-color: none,
+        thickness: (left: 2pt),
+        radius: 0pt,
+      ),
+    )[
+      #body
+    ]
+  } else if thm-type == "Solution" {
+    block(
+      width: 100%,
+      breakable: true,
+    )[
+      #align(left)[
+        #text(weight: "regular", style: "italic")[Solution.]
+        #h(0.5em)
+        #body
+      ]
+    ]
   }
 }
 
@@ -152,7 +182,26 @@
   definition,
   proof,
   rules: thm-rules,
-) = default-theorems("thms", thm-styling: thm-style, proof-styling: proof-style)
+) = default-theorems(
+  "thms",
+  thm-styling: thm-style,
+  proof-styling: proof-style,
+)
+
+#let (
+  exercise,
+  sol,
+  rules: exercise-rules,
+) = new-theorems(
+  "exercise-thms",
+  (
+    exercise: "Exercise",
+    sol: "Solution",
+  ),
+  thm-styling: thm-style,
+)
+
+#let sol = sol.with(numbering: none)
 
 /*
 template for main (with title page)
@@ -277,6 +326,7 @@ template for main (with title page)
   set align(left)
 
   show: thm-rules
+  show: exercise-rules
 
   body
 }
@@ -408,10 +458,127 @@ template for lecture notes
   set align(left)
 
   show: thm-rules
+  show: exercise-rules
+
   body
 }
 
+/*
+template for solutions
+*/
 
+#let solution(
+  title: none,
+  name: [],
+  body,
+) = {
+  // page
+  set page(
+    fill: white,
+    paper: "a4",
+  )
+
+  // general text
+  set text(
+    size: 12pt,
+    fill: black,
+    font: "New Computer Modern", // LaTeX font
+  )
+
+  v(150pt)
+  // title
+  set align(center)
+  text(size: 24pt, fill: black, title)
+
+  v(15pt)
+
+  par(justify: false)[
+    #text(size: 10pt, [Solutions by #name])
+  ]
+
+  pagebreak()
+
+  set page(numbering: "1")
+
+  // par
+  set par(
+    first-line-indent: 1.3em,
+    leading: 1.3em,
+    justify: true,
+  )
+
+  // headings
+  set heading(
+    numbering: "1.",
+  )
+  show heading: set block(below: 1.2em)
+  show heading.where(level: 1): set text(18pt, black)
+  show heading.where(level: 2): set text(14pt, black)
+
+  show heading.where(level: 1): it => {
+    counter(math.equation).update(0)
+    it
+  }
+  set heading(
+    numbering: (..x) => {
+      let nums = x.pos()
+      nums.at(0) = nums.at(0)
+      numbering("1.", ..nums)
+    },
+  )
+
+  // outline
+  show outline.entry.where(
+    level: 1,
+  ): set block(above: 1.5em)
+  show outline.entry.where(
+    level: 2,
+  ): set block(above: 1.25em)
+  outline(depth: 2)
+
+  // figures
+  set scale(reflow: true)
+  show figure.caption: set text(size: 11pt, style: "italic")
+  //show figure: set block(spacing: 1.3em)
+  show ref.where(form: "normal"): set ref(supplement: it => {
+    if it.func() == figure {
+      "Figure"
+    }
+  })
+
+  // enum
+  set enum(
+    indent: 1.3em,
+    body-indent: 0.75em,
+  )
+
+  show enum: set block(breakable: true)
+  show list: set block(breakable: true)
+
+  // equations
+  show math.equation: set text(font: "New Computer Modern Math")
+
+  set math.equation(
+    numbering: (..nums) => {
+      let chapter = counter(heading.where(level: 1)).get().first() - 1
+      numbering("(1.1)", chapter, nums.pos().first())
+    },
+  )
+
+  show: equate.with(
+    breakable: true,
+    sub-numbering: false,
+    number-mode: "label",
+  )
+
+  pagebreak()
+  set align(left)
+
+  show: thm-rules
+  show: exercise-rules
+
+  body
+}
 
 
 /*
@@ -493,6 +660,7 @@ template for chapters (no title page, no outline, etc.)
   set align(left)
 
   show: thm-rules
+  show: exercise-rules
 
   body
 }
