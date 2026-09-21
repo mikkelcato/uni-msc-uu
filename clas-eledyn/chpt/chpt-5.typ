@@ -103,8 +103,13 @@ $
 $
 This tells us each $A_i$ satisfies the Poisson equation, and therefore "acts like" the scalar potential. Hence, we may deduce
 $
-  bold(A) (bold(x)) =^"Coulomb" mu_0/(4 pi) integral (bold(J) (bold(x)'))/abs(bold(x)-bold(x)') dd(x', 3).
+  bold(A) (bold(x)) =^"Coulomb" mu_0/(4 pi) integral (bold(J) (bold(x)'))/abs(bold(x)-bold(x)') dd(x', 3),
 $
+which can be written as
+$
+  bold(A) (bold(x)) =^"Coulomb" (mu_0 I)/(4 pi) integral_C (dd(bold(l)))/abs(bold(x)-bold(x)'),
+$
+when considering a thin wire carrying $I$.
 
 == "Multipole expansion"
 We can find a multipole expansion for $bold(A)(bold(x))$ as we did for the scalar potential. However, in this case things are annoying, since the $A_i$ are coupled due to our choice of gauge. Hence, we will approach the problem differently.
