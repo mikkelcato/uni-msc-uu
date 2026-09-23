@@ -25,14 +25,14 @@ We define
 $
   bold(E)_t = vecrow(E_x, E_y, 0)",  " bold(E)_z = vecrow(0, 0, E_z),
 $
-so $bold(E) = bold(E)_t + bold(E)_z$ and similarly for $bold(B)$. Recall Maxwell's equations
+so $bold(E) = bold(E)_t + bold(E)_z$ and similarly for $bold(B)$. Then Maxwell's equations
 $
                                              div bold(E)(bold(x)) & = 0 \
                  curl bold(E)(bold(x)) - i omega bold(B)(bold(x)) & = 0 \
                                              div bold(B)(bold(x)) & = 0 \
   curl bold(B)(bold(x)) + i mu epsilon.alt omega bold(E)(bold(x)) & = 0,
 $
-which become#footnote[We use $ grad = grad_t + bold(hat(z)) pdv(, z). $]
+become#footnote[We use $ grad = grad_t + bold(hat(z)) pdv(, z). $]
 $
   grad_t dot bold(E)_t + pdv(E_z, z) & = 0 \
   grad_t dot bold(B)_t + pdv(B_z, z) & = 0,

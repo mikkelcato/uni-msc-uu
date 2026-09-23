@@ -128,14 +128,14 @@
     showybox(
       title-style: (
         weight: 1000,
-        color: red.darken(40%),
+        color: black,
         sep-thickness: 0pt,
       ),
       title: [Exercise #number
         #if name != none { [#text(weight: "regular")[(#name)]] }],
 
       frame: (
-        border-color: red.lighten(20%),
+        border-color: black,
         title-color: none,
         thickness: (left: 2pt),
         radius: 0pt,
